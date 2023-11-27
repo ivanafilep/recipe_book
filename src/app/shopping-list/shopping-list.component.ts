@@ -14,4 +14,9 @@ export class ShoppingListComponent {
     new Ingredient('Aleva paprika', 1)
   ];
 
+  onIngredientAdded(ingredient: Ingredient){
+    this.ingredients.push(ingredient);
+
+  }
+
 }

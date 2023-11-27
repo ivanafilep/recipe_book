@@ -1,13 +1,14 @@
-<a href="#" class="list-group-item clearfix"
-        >
+<a href="#" 
+    class="list-group-item clearfix"
+        (click)="onSelected()">
             <div class="pull-left">
-                <h4 class="list-group-item-heading">{{recept.name}}</h4>
-                <p class="list-group-item-text">{{recept.description}}</p>
+                <h4 class="list-group-item-heading">{{ recept.name }}</h4>
+                <p class="list-group-item-text">{{ recept.description }}</p>
             </div>
             <span class="pull-right">
                 <img 
                 [src]="recept.imagePath" 
-                alt="{{recept.name}}" 
+                alt="{{ recept.name }}" 
                 class="img-responsive" style="max-height: 50px;">
             </span>
         </a>
