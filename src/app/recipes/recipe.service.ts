@@ -1,6 +1,10 @@
+import { EventEmitter } from '@angular/core';
 import { Recipe } from "./recipe.model";
 
 export class RecipeService{
+
+    recipeSelected = new EventEmitter<Recipe>();
+
     private recipes: Recipe[] = [
         new Recipe('Gulas', 'Ovo je ukusan gulas', 'https://nova.rs/wp-content/uploads/2021/04/shutterstock_1011502120-725x483.jpg'),
         new Recipe('Spaghetti Carbonara','Najlepse jelo', 'https://images.24ur.com/media/images/1024x576/Jan2018/f053916a0b_62023484.jpg?v=c812'),
