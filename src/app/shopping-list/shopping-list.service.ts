@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 //mislim na sam naziv, ne mora se zvati isti, vec kako hocu ja
 export class ShopingListService{
     ingredientChanged = new Subject<Ingredient[]>();
+    startedEditing = new Subject<number>();
     private ingredients: Ingredient[] = [
         new Ingredient('Meso', 1),
         new Ingredient('Luk', 1),
