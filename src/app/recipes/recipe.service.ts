@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Recipe } from "./recipe.model";
 import { Ingredient } from '../shared/ingredient.model';
 import { ShopingListService } from '../shopping-list/shopping-list.service';
+import { Subject } from 'rxjs';
 
 
 @Injectable()
 export class RecipeService{
+    recipesChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
         new Recipe('Gulas', 'Ovo je ukusan gulas', 'https://nova.rs/wp-content/uploads/2021/04/shutterstock_1011502120-725x483.jpg', 
@@ -42,6 +44,20 @@ export class RecipeService{
 
     addIngredientsToShoppingList(reciveIngredients: Ingredient[]){
         this.slService.addIngredients(reciveIngredients);
+    }
+
+    addRecipe(recipe: Recipe){
+        this.recipes.push(recipe);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    updateRecipe(index: number, newRecipe: Recipe){
+        this.recipes[index] = newRecipe;
+        this.recipesChanged.next(this.recipes.slice());
+    }
+    deleteRecipe(index: number){
+        this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
     }
 
 }
