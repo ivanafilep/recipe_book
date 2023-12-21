@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class RecipeService{
     recipesChanged = new Subject<Recipe[]>();
-
+/*
     private recipes: Recipe[] = [
         new Recipe('Gulas', 'Ovo je ukusan gulas', 'https://nova.rs/wp-content/uploads/2021/04/shutterstock_1011502120-725x483.jpg', 
         [
@@ -29,8 +29,15 @@ export class RecipeService{
             new Ingredient('Jogurt', 1)
         ]),
       ];
+      */
+      private recipes: Recipe[] = [];
 
       constructor(private slService: ShopingListService){}
+
+      setRecipes(recipes: Recipe[]){
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
+      }
 
       //slice koristimo jer ako nesto promenimo u listi recepata, vratice nam novu listu, tj kopiju liste iz ovog servisa.
       //Tako da od spolja necemo moci da pristupimo direktno listi iz servisa, vec cemo dobiti kopiju
