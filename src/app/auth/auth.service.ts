@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { Subject, throwError } from "rxjs";
+import { UserModel } from "./user.model";
 
 export interface AuthResponseData{
     idToken: string;
@@ -15,6 +16,8 @@ export interface AuthResponseData{
 @Injectable({providedIn: 'root'})
 export class AuthService{
 
+    user = new Subject<UserModel>();
+
     constructor(private http: HttpClient){}
 
     signUp(email: string, password: string){
@@ -24,7 +27,14 @@ export class AuthService{
             password: password,
             returnSecureToken : true
         }
-      ).pipe(catchError(this.handleError));
+      ).pipe(catchError(this.handleError), tap(respData => {
+        this.handleAuthentication(
+            respData.email, 
+            respData.localId, 
+            respData.idToken, 
+            +respData.expiresIn)
+      
+      }));
     }
 
     
@@ -35,9 +45,33 @@ export class AuthService{
                 password: password,
                 returnSecureToken : true
             }
-        ).pipe(catchError(this.handleError));
+        ).pipe(catchError(this.handleError), tap(respData => {
+            this.handleAuthentication(
+                respData.email, 
+                respData.localId, 
+                respData.idToken, 
+                +respData.expiresIn)
+          
+          }));
 
     }
+
+    private handleAuthentication(
+        email: string, 
+        userId: string, 
+        token: string, 
+        expiresIn: number){
+        const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+        const user = new UserModel(
+            email, 
+            userId,
+            token, 
+            expirationDate
+            );
+            this.user.next(user);
+    }
+    
+
 
     private handleError(errorRes: HttpErrorResponse){
         console.error('Error response:', errorRes); 
