@@ -7,6 +7,7 @@ import { ShoppingEditComponent } from "./shopping-edit/shopping-edit.component";
 import { ShoppingListComponent } from "./shopping-list.component";
 import { SharedModule } from "../shared/shared.module";
 
+
 @NgModule({
     declarations:[
         ShoppingEditComponent,
@@ -19,7 +20,8 @@ import { SharedModule } from "../shared/shared.module";
             { path: '', component: ShoppingListComponent}
         ]),
         SharedModule
-    ]
+    ],
+  
 })
 export class ShoppingListModule{
 
